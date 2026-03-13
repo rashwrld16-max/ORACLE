@@ -1,0 +1,35 @@
+name: Oracle Brain Updater
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # runs every hour at :00
+  workflow_dispatch:       # lets you run it manually from GitHub too
+
+jobs:
+  update-brain:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install ws
+
+      - name: Run brain learner
+        run: node learner.js
+
+      - name: Commit updated brain
+        run: |
+          git config user.name "Oracle Brain"
+          git config user.email "oracle@brain.ai"
+          git add brain.json
+          git diff --staged --quiet || git commit -m "🧠 Brain update $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git push
