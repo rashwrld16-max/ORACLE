@@ -1,0 +1,9 @@
+{
+  "name": "oracle-brain",
+  "version": "1.0.0",
+  "description": "Oracle ML Brain Learner",
+  "main": "learner.js",
+  "dependencies": {
+    "ws": "^8.0.0"
+  }
+}
